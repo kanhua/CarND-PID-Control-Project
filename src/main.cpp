@@ -1,5 +1,6 @@
 #include <uWS/uWS.h>
 #include <iostream>
+#include <fstream>
 #include "json.hpp"
 #include "PID.h"
 #include <math.h>
@@ -34,7 +35,11 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(1,0.05,0.01);
+  //pid.Init(0.2,0.005,2);
+  pid.Init(0.172965,0.00109726,1.75581);
+  // Set true here to enable twiddle
+  pid.twiddle=false;
+
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -67,6 +72,7 @@ int main()
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
 
+          std::cout << "Kp:" << pid.Kp << " Kd:" << pid.Kd << " Ki:" <<pid.Ki <<std::endl;
           json msgJson;
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = 0.3;
@@ -81,6 +87,9 @@ int main()
       }
     }
   });
+
+
+
 
   // We don't need this since we're not using HTTP but if it's removed the program
   // doesn't compile :-(
@@ -117,4 +126,5 @@ int main()
     return -1;
   }
   h.run();
+
 }

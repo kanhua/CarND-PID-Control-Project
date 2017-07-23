@@ -35,58 +35,17 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 3. Compile: `cmake .. && make`
 4. Run it: `./pid`. 
 
-## Editor Settings
+## Reflection on Tuning PID parameters for this project
 
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
+I use ```(P=0.1,I=0.001,D=1)``` as my initial guess. These PID values work reasonably well and the car hit the edge of the track only once. It seems that the car should be more responsive to the change of the direction of the tracks. I increase the PD value and add a small value of I to make PID values as ```(P=0.2,I=0.001,D=2)```. I start with this value and add the twiddle algorithm to find tune the PID values. Since I intend to use the twiddle algorithm to fine tune the algorithm, I select very small dP, dD and dI values. Their initial values are 1/1000 of the P, I and D values, respectively. 
+The final tuned parameter is ```(P=0.172695,I=0.00109726,D=1.75581)```. I found these PID values make the car very close of edge of the track in one of a right turn. I therefore tried increase the I value to 0.005109726 to correct this. This PID values make the car a little wobbly in the beginning but becomes stable afterwards. 
+Comparisons of CTE values using these PID values are plotted below.
 
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
 
-## Code Style
+![result](./analysis/cte_result.png)
 
-Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
+We can see that the final tuned parameters has smaller maximum CTE error compared to our choosen values ```(P=0.1,I=0.001,D=1)``` .
 
-## Project Instructions and Rubric
 
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
 
-More information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
-for instructions and the project rubric.
 
-## Hints!
-
-* You don't have to follow this directory structure, but if you do, your work
-  will span all of the .cpp files here. Keep an eye out for TODOs.
-
-## Call for IDE Profiles Pull Requests
-
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
-that students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
