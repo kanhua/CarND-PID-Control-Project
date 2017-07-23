@@ -37,7 +37,7 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 
 ## The function of PID values
 
-Increasing P value makes the car more responsive to CTE value, but it also causes oscillations, especially when the car is driving at a high speed. Increasing D values can damp the oscillation. Ideally, controlling only P and D is enough for minimizing the CTE. However, real-world may have systematic bias that prevent the value of CTE converging, such as a long-term drifting of the car. Adding a small amount of I value could help fix this problem.
+Increasing P value makes the car more responsive t cross-track error (CTE) value, but it also causes oscillations, especially when the car is driving at a high speed. Increasing D values can damp the oscillation. Ideally, controlling only P and D is enough for minimizing the CTE. However, real-world may have systematic bias that prevent the value of CTE converging, such as a long-term drifting of the car. Adding a small amount of I value could help fix this problem.
 
 
 
