@@ -36,7 +36,7 @@ int main()
   PID pid;
   // TODO: Initialize the pid variable.
   //pid.Init(0.2,0.005,2);
-  pid.Init(0.172965,0.00109726,1.75581);
+  pid.Init(0.172965,0.00509726,1.75581);
   // Set true here to enable twiddle
   pid.twiddle=false;
 

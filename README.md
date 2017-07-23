@@ -35,6 +35,12 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 3. Compile: `cmake .. && make`
 4. Run it: `./pid`. 
 
+## The function of PID values
+
+Increasing P value makes the car more responsive to CTE value, but it also causes oscillations, especially when the car is driving at a high speed. Increasing D values can damp the oscillation. Ideally, controlling only P and D is enough for minimizing the CTE. However, real-world may have systematic bias that prevent the value of CTE converging, such as a long-term drifting of the car. Adding a small amount of I value could help fix this problem.
+
+
+
 ## Reflection on Tuning PID parameters for this project
 
 I use ```(P=0.1,I=0.001,D=1)``` as my initial guess. These PID values work reasonably well and the car hit the edge of the track only once. It seems that the car should be more responsive to the change of the direction of the tracks. I increase the PD value and add a small value of I to make PID values as ```(P=0.2,I=0.001,D=2)```. I start with this value and add the twiddle algorithm to find tune the PID values. Since I intend to use the twiddle algorithm to fine tune the algorithm, I select very small dP, dD and dI values. Their initial values are 1/1000 of the P, I and D values, respectively. 
@@ -44,7 +50,7 @@ Comparisons of CTE values using these PID values are plotted below.
 
 ![result](./analysis/cte_result.png)
 
-We can see that the final tuned parameters has smaller maximum CTE error compared to our choosen values ```(P=0.1,I=0.001,D=1)``` .
+We can see that the final tuned parameters ```(P=0.172695,I=0.00509726,D=1.75581)``` has smaller maximum CTE error compared to our choosen initial values ```(P=0.1,I=0.001,D=1)``` despite of the first three hundreds steps. After the first three hundreds steps, the maximum absolute values of CTE is less than 2 and the deviation of CTE recovers reasonably quick.
 
 
 
